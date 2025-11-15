@@ -21,3 +21,12 @@ func (o *ObjectBase) GetRect() (x1, y1, x2, y2 int) {
 func (o *ObjectBase) GetSize() (width, height int) {
 	return o.CurrentFrame.Size()
 }
+
+func (o *ObjectBase) GetPosition() (x, y float64) {
+	return o.Position.X, o.Position.Y
+}
+
+func (o *ObjectBase) SetPosition(x, y float64) {
+	o.Position.X = x
+	o.Position.Y = y
+}

@@ -16,7 +16,6 @@ func (g *Starter) Update() error {
 	ctx := GameContext{
 		Width:  g.Width,
 		Height: g.Height,
-		Delta:  1.0 / 60.0,
 	}
 
 	for _, e := range g.Entities {

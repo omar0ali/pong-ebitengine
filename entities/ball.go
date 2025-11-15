@@ -37,7 +37,7 @@ func (b *Ball) Update(gc *game.GameContext) {
 
 func (b *Ball) Draw(screen *ebiten.Image) {
 	opts := &ebiten.DrawImageOptions{}
-	opts.GeoM.Translate(b.Position.X, b.Position.Y)
+	opts.GeoM.Translate(b.GetPosition())
 	screen.DrawImage(b.CurrentFrame, opts)
 }
 

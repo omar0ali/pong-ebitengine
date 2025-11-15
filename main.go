@@ -11,14 +11,20 @@ import (
 
 func main() {
 	game := &game.Starter{
-		Width:  320,
-		Height: 240,
+		Width:  720,
+		Height: 480,
 		Scale:  2,
 		Entities: []game.GameObject{
 			&entities.Ball{
 				ObjectBase: entities.ObjectBase{
 					Position:     entities.Point{X: 30, Y: 30, VX: 3, VY: 6},
 					CurrentFrame: utils.LoadImage("ball/ball.png"),
+				},
+			},
+			&entities.Paddle{
+				ObjectBase: entities.ObjectBase{
+					Position:     entities.Point{X: 1, Y: 1},
+					CurrentFrame: utils.LoadImage("paddles/0.png"),
 				},
 			},
 		},
