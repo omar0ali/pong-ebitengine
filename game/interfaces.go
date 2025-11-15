@@ -2,8 +2,14 @@ package game
 
 import "github.com/hajimehoshi/ebiten/v2"
 
+type GameContext struct {
+	Width  int
+	Height int
+	Delta  float64
+}
+
 type GameObject interface {
-	Update()
+	Update(g *GameContext)
 	Draw(screen *ebiten.Image)
 }
 
