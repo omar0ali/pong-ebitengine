@@ -12,6 +12,31 @@ type Starter struct {
 	Entities      []GameObject
 }
 
+func (g *Starter) handleCollision() {
+	for i := 0; i < len(g.Entities); i++ {
+		a, ok := g.Entities[i].(Collidable)
+		if !ok {
+			continue
+		}
+		for j := i + 1; j < len(g.Entities); j++ {
+			b, ok := g.Entities[j].(Collidable)
+			if !ok {
+				continue
+			}
+			CheckCollision(a, b)
+		}
+	}
+}
+
+func (g *Starter) GetEntity(s string) GameObject {
+	for _, e := range g.Entities {
+		if e.GetType() == s {
+			return e
+		}
+	}
+	return nil
+}
+
 func (g *Starter) Update() error {
 	ctx := GameContext{
 		Width:  g.Width,
@@ -21,6 +46,9 @@ func (g *Starter) Update() error {
 	for _, e := range g.Entities {
 		e.Update(&ctx)
 	}
+
+	g.handleCollision()
+
 	return nil
 }
 

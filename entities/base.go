@@ -1,6 +1,8 @@
 package entities
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"github.com/hajimehoshi/ebiten/v2"
+)
 
 type Point struct {
 	X, Y, VX, VY float64
@@ -11,10 +13,10 @@ type ObjectBase struct {
 	CurrentFrame *ebiten.Image
 }
 
-func (o *ObjectBase) GetRect() (x1, y1, x2, y2 int) {
+func (o *ObjectBase) GetRect() (x1, y1, x2, y2 float64) {
 	w, h := o.CurrentFrame.Size()
-	x1, y2 = int(o.Position.X), int(o.Position.Y)
-	x2, y2 = int(o.Position.X)+w, int(o.Position.Y)+h
+	x1, y1 = o.Position.X, o.Position.Y
+	x2, y2 = o.Position.X+float64(w), o.Position.Y+float64(h)
 	return x1, y1, x2, y2
 }
 

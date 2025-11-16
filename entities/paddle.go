@@ -32,6 +32,47 @@ func (p *Paddle) Draw(screen *ebiten.Image) {
 	screen.DrawImage(p.CurrentFrame, opts)
 }
 
-func (b *Paddle) OnCollision(a game.Collidable) {
-	// collision
+func (p *Paddle) OnCollision(a game.Collidable) {
+	ball, ok := a.(*Ball)
+	if !ok {
+		return
+	}
+
+	// ------- Increasing the speed after each hit by the paddle
+	if ball.Position.VX > 0 {
+		ball.Position.VX += 0.2
+	}
+	if ball.MaxSpeed > 0 {
+		ball.MaxSpeed += 0.2
+	}
+	if ball.Position.VY > 0 {
+		ball.Position.VY += 0.2
+	}
+	// --------------
+
+	pw, _ := p.GetSize()
+	bw, bh := ball.GetSize()
+
+	ball.Position.VY = -ball.Position.VY
+
+	ballCenterX := ball.Position.X + float64(bw)/2
+	paddleCenterX := p.Position.X + float64(pw)/2
+
+	distance := ballCenterX - paddleCenterX
+	factor := 0.1
+
+	ball.Position.VX += distance * factor
+
+	// limit the angle how much it turn to X and -x base on the max speed
+	if ball.Position.VX < -ball.MaxSpeed {
+		ball.Position.VX = -ball.MaxSpeed
+	} else if ball.Position.VX > ball.MaxSpeed {
+		ball.Position.VX = ball.MaxSpeed
+	}
+
+	ball.Position.Y = p.Position.Y - float64(bh)
+}
+
+func (p *Paddle) GetType() string {
+	return "paddle"
 }
