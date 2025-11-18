@@ -38,18 +38,6 @@ func (p *Paddle) OnCollision(a game.Collidable) {
 		return
 	}
 
-	// ------- Increasing the speed after each hit by the paddle
-	if ball.Position.VX > 0 {
-		ball.Position.VX += 0.2
-	}
-	if ball.MaxSpeed > 0 {
-		ball.MaxSpeed += 0.2
-	}
-	if ball.Position.VY > 0 {
-		ball.Position.VY += 0.2
-	}
-	// --------------
-
 	pw, _ := p.GetSize()
 	bw, bh := ball.GetSize()
 

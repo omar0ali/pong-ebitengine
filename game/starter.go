@@ -39,8 +39,9 @@ func (g *Starter) GetEntity(s string) GameObject {
 
 func (g *Starter) Update() error {
 	ctx := GameContext{
-		Width:  g.Width,
-		Height: g.Height,
+		Width:   g.Width,
+		Height:  g.Height,
+		Starter: g,
 	}
 
 	for _, e := range g.Entities {

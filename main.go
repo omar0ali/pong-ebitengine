@@ -17,7 +17,7 @@ func main() {
 		Entities: []game.GameObject{
 			&entities.Ball{
 				ObjectBase: entities.ObjectBase{
-					Position:     entities.Point{X: 30, Y: 30, VX: 5, VY: 5},
+					Position:     entities.Point{X: 360, Y: 220, VX: 0, VY: 5},
 					CurrentFrame: utils.LoadImage("ball/0.png"),
 				},
 				MaxSpeed: 5,
@@ -27,6 +27,13 @@ func main() {
 					Position:     entities.Point{X: 1, Y: 1},
 					CurrentFrame: utils.LoadImage("paddles/0.png"),
 				},
+			},
+			&entities.PaddleOppose{
+				ObjectBase: entities.ObjectBase{
+					Position:     entities.Point{X: 1, Y: 1},
+					CurrentFrame: utils.LoadImage("paddles/1.png"),
+				},
+				Speed: 3.8,
 			},
 		},
 	}

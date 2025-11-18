@@ -30,12 +30,13 @@ func (b *Ball) Update(gc *game.GameContext) {
 		b.Position.VX = -b.Position.VX
 	}
 
-	if b.Position.Y > sh-float64(bh) {
-		// b.Position.Y = sh - float64(bh)
-		// b.Position.VY = -b.Position.VY
-	} else if b.Position.Y < 0 {
-		b.Position.Y = 0
-		b.Position.VY = -b.Position.VY
+	// reset the ball in the middle
+	if b.Position.Y > sh-float64(bh) || b.Position.Y < -float64(bh) {
+		//TODO: reset the ball speed and position, also set a max speed so it does not glitch out.
+		b.Position.VX = 0
+		b.Position.VY = b.MaxSpeed
+		b.Position.Y = sh / 2
+		b.Position.X = sw / 2
 	}
 }
 
@@ -46,7 +47,14 @@ func (b *Ball) Draw(screen *ebiten.Image) {
 }
 
 func (b *Ball) OnCollision(a game.Collidable) {
-	// collides with paddles
+	// ------- Increasing the speed after each hit by the paddle
+	if b.Position.VX > 0 {
+		b.Position.VX += 0.2
+	}
+	if b.Position.VY > 0 {
+		b.Position.VY += 0.2
+	}
+	// --------------
 }
 
 func (b *Ball) GetType() string {

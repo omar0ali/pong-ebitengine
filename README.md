@@ -5,5 +5,5 @@ simulates a table tennis match where two players (or one player and a computer) 
 - [X] Bouncing ball
 - [ ] Animation
 - [X] Player moving paddle
-- [ ] Computer moving paddle based on ball position
+- [X] Computer moving paddle based on ball position
 - [ ] Score
