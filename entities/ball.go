@@ -11,9 +11,9 @@ type Ball struct {
 }
 
 func (b *Ball) Update(gc *game.GameContext) {
-
 	// get size of the screen
 	sw, sh := float64(gc.Width), float64(gc.Height)
+
 	// get size of the ball
 	bw, bh := b.GetSize()
 

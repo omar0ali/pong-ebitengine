@@ -6,10 +6,14 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-type Starter struct {
+type WindowSize struct {
 	Width, Height int
-	Scale         int
-	Entities      []GameObject
+}
+
+type Starter struct {
+	WindowSize WindowSize
+	Scale      int
+	Entities   []GameObject
 }
 
 func (g *Starter) handleCollision() {
@@ -39,8 +43,8 @@ func (g *Starter) GetEntity(s string) GameObject {
 
 func (g *Starter) Update() error {
 	ctx := GameContext{
-		Width:   g.Width,
-		Height:  g.Height,
+		Width:   g.WindowSize.Width,
+		Height:  g.WindowSize.Height,
 		Starter: g,
 	}
 
@@ -61,9 +65,9 @@ func (g *Starter) Draw(screen *ebiten.Image) {
 }
 
 func (g *Starter) Layout(_, _ int) (int, int) {
-	return g.Width, g.Height
+	return g.WindowSize.Width, g.WindowSize.Height
 }
 
 func (g *Starter) GetWindowSize() (int, int) {
-	return g.Width * g.Scale, g.Height * g.Scale
+	return g.WindowSize.Width * g.Scale, g.WindowSize.Height * g.Scale
 }

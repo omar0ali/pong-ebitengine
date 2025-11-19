@@ -10,30 +10,42 @@ import (
 )
 
 func main() {
-	game := &game.Starter{
+	windowSize := game.WindowSize{
 		Width:  720,
 		Height: 480,
-		Scale:  2,
+	}
+
+	game := &game.Starter{
+		WindowSize: windowSize,
+		Scale:      2,
 		Entities: []game.GameObject{
 			&entities.Ball{
 				ObjectBase: entities.ObjectBase{
-					Position:     entities.Point{X: 360, Y: 220, VX: 0, VY: 5},
+					Position: entities.Point{
+						X:  float64(windowSize.Width) / 2,
+						Y:  float64(windowSize.Height) / 2,
+						VX: 0,
+						VY: 5,
+					},
 					CurrentFrame: utils.LoadImage("ball/0.png"),
 				},
 				MaxSpeed: 5,
 			},
-			&entities.Paddle{
+			&entities.PaddleBase{
 				ObjectBase: entities.ObjectBase{
 					Position:     entities.Point{X: 1, Y: 1},
 					CurrentFrame: utils.LoadImage("paddles/0.png"),
 				},
+				Behavior: entities.PlayerBehavior{},
 			},
-			&entities.PaddleOppose{
+			&entities.PaddleBase{
 				ObjectBase: entities.ObjectBase{
 					Position:     entities.Point{X: 1, Y: 1},
 					CurrentFrame: utils.LoadImage("paddles/1.png"),
 				},
-				Speed: 3.8,
+				Behavior: entities.CPUBehavior{
+					Speed: 3.8,
+				},
 			},
 		},
 	}
