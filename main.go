@@ -5,6 +5,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/omar0ali/pong/entities"
+	"github.com/omar0ali/pong/entities/effects"
 	"github.com/omar0ali/pong/game"
 	"github.com/omar0ali/pong/utils"
 )
@@ -19,6 +20,7 @@ func main() {
 		WindowSize: windowSize,
 		Scale:      2,
 		Entities: []game.GameObject{
+			effects.NewEffectManager(), // animation
 			&entities.Ball{
 				ObjectBase: entities.ObjectBase{
 					Position: entities.Point{
@@ -44,7 +46,7 @@ func main() {
 					CurrentFrame: utils.LoadImage("paddles/1.png"),
 				},
 				Behavior: entities.CPUBehavior{
-					Speed: 3.8,
+					Speed: 4.5,
 				},
 			},
 		},

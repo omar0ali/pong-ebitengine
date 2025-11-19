@@ -39,7 +39,9 @@ func (p *PaddleBase) GetType() string {
 type PlayerBehavior struct{}
 
 func (PlayerBehavior) Update(p *PaddleBase, gc *game.GameContext) {
-	w, h := p.CurrentFrame.Size()
+	// w, h := p.CurrentFrame.Size()
+	w := p.CurrentFrame.Bounds().Size().X
+	h := p.CurrentFrame.Bounds().Size().Y
 	y := float64(gc.Height - h)
 	mx, _ := ebiten.CursorPosition()
 
@@ -101,10 +103,10 @@ func (c CPUBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 		return
 	}
 
-	pw, _ := p.CurrentFrame.Size()
+	pw := p.CurrentFrame.Bounds().Size().X
 	paddleCenter := p.Position.X + float64(pw)/2
 
-	bw, _ := ball.CurrentFrame.Size()
+	bw := ball.CurrentFrame.Bounds().Size().X
 	ballCenter := ball.Position.X + float64(bw)/2
 
 	// How far is the ball center from paddle center
