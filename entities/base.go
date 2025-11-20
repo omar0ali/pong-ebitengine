@@ -14,14 +14,14 @@ type ObjectBase struct {
 }
 
 func (o *ObjectBase) GetRect() (x1, y1, x2, y2 float64) {
-	w, h := o.CurrentFrame.Size()
+	w, h := o.CurrentFrame.Bounds().Size().X, o.CurrentFrame.Bounds().Size().Y
 	x1, y1 = o.Position.X, o.Position.Y
 	x2, y2 = o.Position.X+float64(w), o.Position.Y+float64(h)
 	return x1, y1, x2, y2
 }
 
 func (o *ObjectBase) GetSize() (width, height int) {
-	return o.CurrentFrame.Size()
+	return o.CurrentFrame.Bounds().Size().X, o.CurrentFrame.Bounds().Size().Y
 }
 
 func (o *ObjectBase) GetPosition() (x, y float64) {

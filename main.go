@@ -6,6 +6,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/omar0ali/pong/entities"
 	"github.com/omar0ali/pong/entities/effects"
+	"github.com/omar0ali/pong/entities/paddle"
 	"github.com/omar0ali/pong/game"
 	"github.com/omar0ali/pong/utils"
 )
@@ -33,19 +34,19 @@ func main() {
 				},
 				MaxSpeed: 5,
 			},
-			&entities.PaddleBase{
+			&paddle.PaddleBase{
 				ObjectBase: entities.ObjectBase{
 					Position:     entities.Point{X: 0, Y: 0},
 					CurrentFrame: utils.LoadImage("paddles/0.png"),
 				},
-				Behavior: entities.PlayerBehavior{},
+				Behavior: paddle.PlayerBehavior{},
 			},
-			&entities.PaddleBase{
+			&paddle.PaddleBase{
 				ObjectBase: entities.ObjectBase{
 					Position:     entities.Point{X: 1, Y: 1},
 					CurrentFrame: utils.LoadImage("paddles/1.png"),
 				},
-				Behavior: entities.CPUBehavior{
+				Behavior: paddle.CPUBehavior{
 					Speed: 3.8,
 				},
 			},
