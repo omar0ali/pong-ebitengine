@@ -4,12 +4,23 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/omar0ali/pong/entities"
 	"github.com/omar0ali/pong/game"
+	"github.com/omar0ali/pong/utils"
 )
 
 type Behavior interface {
 	Update(p *PaddleBase, gc *game.GameContext)
 	OnCollision(p *PaddleBase, a game.Collidable)
 	GetType() string
+}
+
+func NewPaddle(framePath string, behavior Behavior) *PaddleBase {
+	return &PaddleBase{
+		ObjectBase: entities.ObjectBase{
+			Position:     entities.Point{X: 0, Y: 0},
+			CurrentFrame: utils.LoadImage("paddles/" + framePath),
+		},
+		Behavior: behavior,
+	}
 }
 
 type PaddleBase struct {

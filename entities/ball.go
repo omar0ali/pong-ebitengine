@@ -3,11 +3,27 @@ package entities
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/omar0ali/pong/game"
+	"github.com/omar0ali/pong/utils"
 )
 
 type Ball struct {
 	ObjectBase
 	MaxSpeed float64
+}
+
+func NewBall(windowSize game.WindowSize, maxSpeed int) *Ball {
+	return &Ball{
+		ObjectBase: ObjectBase{
+			Position: Point{
+				X:  float64(windowSize.Width) / 2,
+				Y:  float64(windowSize.Height) / 2,
+				VX: float64(maxSpeed),
+				VY: 0,
+			},
+			CurrentFrame: utils.LoadImage("ball/0.png"),
+		},
+		MaxSpeed: float64(maxSpeed),
+	}
 }
 
 func (b *Ball) Update(gc *game.GameContext) {
