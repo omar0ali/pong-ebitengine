@@ -12,7 +12,7 @@ import (
 
 func main() {
 	windowSize := game.WindowSize{
-		Width:  720,
+		Width:  875,
 		Height: 480,
 	}
 
@@ -26,8 +26,8 @@ func main() {
 					Position: entities.Point{
 						X:  float64(windowSize.Width) / 2,
 						Y:  float64(windowSize.Height) / 2,
-						VX: 0,
-						VY: 5,
+						VX: 5,
+						VY: 0,
 					},
 					CurrentFrame: utils.LoadImage("ball/0.png"),
 				},
@@ -35,7 +35,7 @@ func main() {
 			},
 			&entities.PaddleBase{
 				ObjectBase: entities.ObjectBase{
-					Position:     entities.Point{X: 1, Y: 1},
+					Position:     entities.Point{X: 0, Y: 0},
 					CurrentFrame: utils.LoadImage("paddles/0.png"),
 				},
 				Behavior: entities.PlayerBehavior{},
@@ -46,7 +46,7 @@ func main() {
 					CurrentFrame: utils.LoadImage("paddles/1.png"),
 				},
 				Behavior: entities.CPUBehavior{
-					Speed: 4.5,
+					Speed: 3.8,
 				},
 			},
 		},

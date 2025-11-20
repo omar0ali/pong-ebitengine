@@ -39,22 +39,21 @@ func (p *PaddleBase) GetType() string {
 type PlayerBehavior struct{}
 
 func (PlayerBehavior) Update(p *PaddleBase, gc *game.GameContext) {
+	// left side of the screen.
 	// w, h := p.CurrentFrame.Size()
-	w := p.CurrentFrame.Bounds().Size().X
 	h := p.CurrentFrame.Bounds().Size().Y
-	y := float64(gc.Height - h)
-	mx, _ := ebiten.CursorPosition()
+	_, my := ebiten.CursorPosition()
 
-	x := float64(mx) - float64(w)/2
+	y := float64(my) - float64(h)/2
 
-	if x < 0 {
-		x = 0
+	if y < 0 {
+		y = 0
 	}
-	if x > float64(gc.Width-w) {
-		x = float64(gc.Width - w)
+	if y > float64(gc.Height-h) {
+		y = float64(gc.Height - h)
 	}
 
-	p.SetPosition(x, y)
+	p.SetPosition(0, y)
 
 }
 
@@ -64,26 +63,24 @@ func (PlayerBehavior) OnCollision(p *PaddleBase, a game.Collidable) {
 		return
 	}
 
-	pw, _ := p.GetSize()
-	bw, bh := ball.GetSize()
+	_, ph := p.GetSize()
+	_, bh := ball.GetSize()
 
-	ball.Position.VY = -ball.Position.VY
+	ball.Position.VX = -ball.Position.VX
 
-	ballCenterX := ball.Position.X + float64(bw)/2
-	paddleCenterX := p.Position.X + float64(pw)/2
+	ballCenterY := ball.Position.Y + float64(bh)/2
+	paddleCenterY := p.Position.Y + float64(ph)/2
 
-	distance := ballCenterX - paddleCenterX
+	distance := paddleCenterY - ballCenterY
 	factor := 0.1
 
-	ball.Position.VX += distance * factor
+	ball.Position.VY += distance * factor
 
-	if ball.Position.VX < -ball.MaxSpeed {
-		ball.Position.VX = -ball.MaxSpeed
-	} else if ball.Position.VX > ball.MaxSpeed {
-		ball.Position.VX = ball.MaxSpeed
+	if ball.Position.VY < -ball.MaxSpeed {
+		ball.Position.VY = -ball.MaxSpeed
+	} else if ball.Position.VY > ball.MaxSpeed {
+		ball.Position.VY = ball.MaxSpeed
 	}
-
-	ball.Position.Y = p.Position.Y - float64(bh)
 }
 
 func (PlayerBehavior) GetType() string {
@@ -103,23 +100,33 @@ func (c CPUBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 		return
 	}
 
-	pw := p.CurrentFrame.Bounds().Size().X
-	paddleCenter := p.Position.X + float64(pw)/2
+	ph := p.CurrentFrame.Bounds().Size().Y
+	paddleCenter := p.Position.Y + float64(ph)/2
 
-	bw := ball.CurrentFrame.Bounds().Size().X
-	ballCenter := ball.Position.X + float64(bw)/2
+	bh := ball.CurrentFrame.Bounds().Size().Y
+	ballCenter := ball.Position.Y + float64(bh)/2
+
+	// set paddle position
+	p.Position.X = float64(gc.Width) - float64(p.CurrentFrame.Bounds().Size().X)
 
 	// How far is the ball center from paddle center
-	dx := ballCenter - paddleCenter
+	dh := ballCenter - paddleCenter
 
-	if dx > float64(c.Speed) {
-		p.Position.X += c.Speed
-	} else if dx < -c.Speed {
-		p.Position.X -= c.Speed
-	} else {
-		p.Position.X += dx
+	// limit the paddle to not go over the screen
+	if p.Position.Y < 5 {
+		p.Position.Y = 5
+	}
+	if p.Position.Y > float64(gc.Height-ph)-5 {
+		p.Position.Y = float64(gc.Height-ph) - 5
 	}
 
+	if dh > float64(c.Speed) {
+		p.Position.Y += c.Speed
+	} else if dh < -c.Speed {
+		p.Position.Y -= c.Speed
+	} else {
+		p.Position.Y += dh
+	}
 }
 
 func (CPUBehavior) OnCollision(p *PaddleBase, a game.Collidable) {
@@ -128,26 +135,35 @@ func (CPUBehavior) OnCollision(p *PaddleBase, a game.Collidable) {
 		return
 	}
 
-	pw, _ := p.GetSize()
-	bw, _ := ball.GetSize()
+	pw, ph := p.GetSize()
+	bw, bh := ball.GetSize()
 
-	ball.Position.VY = -ball.Position.VY
+	// Reverse horizontal direction
+	ball.Position.VX = -ball.Position.VX
 
-	ballCenterX := ball.Position.X + float64(bw)/2
-	paddleCenterX := p.Position.X + float64(pw)/2
-
-	distance := ballCenterX - paddleCenterX
+	ballCenterY := ball.Position.Y + float64(bh)/2
+	paddleCenterY := p.Position.Y + float64(ph)/2
+	distance := paddleCenterY - ballCenterY
 	factor := 0.1
 
-	ball.Position.VX += distance * factor
+	ball.Position.VY += distance * factor
 
-	// limit the angle how much it turn to X and -x base on the max speed
-	if ball.Position.VX < -ball.MaxSpeed {
-		ball.Position.VX = -ball.MaxSpeed
-	} else if ball.Position.VX > ball.MaxSpeed {
-		ball.Position.VX = ball.MaxSpeed
+	if ball.Position.VY < -ball.MaxSpeed {
+		ball.Position.VY = -ball.MaxSpeed
+	} else if ball.Position.VY > ball.MaxSpeed {
+		ball.Position.VY = ball.MaxSpeed
 	}
 
+	leftEdge := p.Position.X - float64(pw)/2
+	rightEdge := p.Position.X + float64(pw)/2
+
+	ballCenterX := ball.Position.X + float64(bw)/2
+
+	if ballCenterX < p.Position.X {
+		ball.Position.X = leftEdge - float64(bw)
+	} else {
+		ball.Position.X = rightEdge
+	}
 }
 
 func (CPUBehavior) GetType() string {

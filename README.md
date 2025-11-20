@@ -3,7 +3,7 @@ simulates a table tennis match where two players (or one player and a computer) 
 
 ## Checklist:
 - [X] Bouncing ball
-- [ ] Animation
+- [X] Animation / Effects
 - [X] Player moving paddle
 - [X] Computer moving paddle based on ball position
 - [ ] Score
