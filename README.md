@@ -6,4 +6,5 @@ simulates a table tennis match where two players (or one player and a computer) 
 - [X] Animation / Effects
 - [X] Player moving paddle
 - [X] Computer moving paddle based on ball position
-- [ ] Score
+- [X] Score
+- [ ] Event Handler

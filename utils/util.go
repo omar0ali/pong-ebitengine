@@ -28,7 +28,7 @@ func LoadImage(path string) *ebiten.Image {
 var scoreFont font.Face
 
 func LoadFont(path string, size float64) font.Face {
-	b, err := os.ReadFile(path)
+	b, err := os.ReadFile("assets/" + path)
 	if err != nil {
 		log.Fatal(err)
 	}

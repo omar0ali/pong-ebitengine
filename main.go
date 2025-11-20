@@ -50,6 +50,7 @@ func main() {
 					Speed: 3.8,
 				},
 			},
+			entities.NewScoreUI(utils.LoadFont("fonts/pixel_font_2.ttf", 18)),
 		},
 	}
 	ebiten.SetWindowSize(game.GetWindowSize())

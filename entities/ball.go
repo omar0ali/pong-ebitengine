@@ -29,13 +29,27 @@ func (b *Ball) Update(gc *game.GameContext) {
 		b.Position.VY = -b.Position.VY
 	}
 
-	// reset the ball in the middle
-	if b.Position.X > sw-float64(bw) || b.Position.X < -float64(bw) {
+	reset := func() {
 		//TODO: reset the ball speed and position, also set a max speed so it does not glitch out.
 		b.Position.VX = b.MaxSpeed
 		b.Position.VY = 0
 		b.Position.Y = sh / 2
 		b.Position.X = sw / 2
+
+	}
+
+	// reset the ball in the middle
+	if b.Position.X > sw-float64(bw) {
+		if scoreUI, ok := gc.Starter.GetEntity("score").(*ScoreUI); ok {
+			scoreUI.CPU++
+		}
+		reset()
+	}
+	if b.Position.X < -float64(bw) {
+		if scoreUI, ok := gc.Starter.GetEntity("score").(*ScoreUI); ok {
+			scoreUI.Player++
+		}
+		reset()
 	}
 }
 
@@ -48,10 +62,10 @@ func (b *Ball) Draw(screen *ebiten.Image) {
 func (b *Ball) OnCollision(a game.Collidable) {
 	// ------- Increasing the speed after each hit by the paddle
 	if b.Position.VX > 0 {
-		b.Position.VX += 0.2
+		b.Position.VX += 0.3
 	}
 	if b.Position.VY > 0 {
-		b.Position.VY += 0.2
+		b.Position.VY += 0.3
 	}
 	// --------------
 }
