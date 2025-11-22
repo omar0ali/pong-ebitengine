@@ -3,8 +3,12 @@ package game
 type EventName int
 
 const (
-	ScoreCPU    EventName = iota
-	ScorePlayer EventName = iota
+	ScoreCPU EventName = iota
+	ScorePlayer
+	BallSplashAniamtionBottom
+	BallSplashAnimationTop
+	BallSplashAnimationLeft
+	BallSplashAnimationRight
 )
 
 type EventBus struct {

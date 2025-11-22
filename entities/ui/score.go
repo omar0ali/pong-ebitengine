@@ -1,4 +1,4 @@
-package entities
+package ui
 
 import (
 	"fmt"

@@ -7,6 +7,7 @@ import (
 	"github.com/omar0ali/pong/entities"
 	"github.com/omar0ali/pong/entities/effects"
 	"github.com/omar0ali/pong/entities/paddle"
+	"github.com/omar0ali/pong/entities/ui"
 	"github.com/omar0ali/pong/game"
 	"github.com/omar0ali/pong/utils"
 )
@@ -23,11 +24,11 @@ func main() {
 	game := &game.Starter{
 		Scale: 2,
 		Entities: []game.GameObject{
-			effects.NewEffectManager(), // animation
+			effects.NewEffectManager(ctx), // animation
 			entities.NewBall(ctx, 5),
 			paddle.NewPaddle("0.png", paddle.PlayerBehavior{}),
 			paddle.NewPaddle("1.png", paddle.CPUBehavior{Speed: 3.8}),
-			entities.NewScoreUI(utils.LoadFont("fonts/pixel_font_2.ttf", 18), ctx),
+			ui.NewScoreUI(utils.LoadFont("fonts/pixel_font_2.ttf", 18), ctx),
 		},
 		Ctx: ctx,
 	}

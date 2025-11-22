@@ -7,4 +7,5 @@ simulates a table tennis match where two players (or one player and a computer) 
 - [X] Player moving paddle
 - [X] Computer moving paddle based on ball position
 - [X] Score
-- [ ] Event Handler
+- [X] Event Handler
+- [ ] Adding Pause Menu

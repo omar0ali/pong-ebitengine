@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 
+	"path/filepath"
+
 	"github.com/hajimehoshi/ebiten/v2"
 
 	"golang.org/x/image/font"
@@ -48,4 +50,35 @@ func LoadFont(path string, size float64) font.Face {
 	}
 
 	return face
+}
+
+func LoadImagesFromFolder(folder string) []*ebiten.Image {
+	images := []*ebiten.Image{}
+
+	assetFolder := filepath.Join("assets", folder)
+	files, err := os.ReadDir(assetFolder)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
+		path := filepath.Join(assetFolder, file.Name())
+		data, err := os.ReadFile(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		img, _, err := image.Decode(bytes.NewReader(data))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		images = append(images, ebiten.NewImageFromImage(img))
+	}
+
+	return images
 }

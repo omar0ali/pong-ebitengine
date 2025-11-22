@@ -45,7 +45,9 @@ func (c CPUBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 	}
 }
 
-func (CPUBehavior) OnCollision(p *PaddleBase, a game.Collidable) {
+func (CPUBehavior) OnCollision(p *PaddleBase, a game.Collidable, gc *game.GameContext) {
+	gc.EventBus.Publish(game.BallSplashAnimationRight)
+
 	ball, ok := a.(*entities.Ball)
 	if !ok {
 		return

@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 type WindowSize struct {
@@ -14,6 +15,7 @@ type Starter struct {
 	Scale    int
 	Entities []GameObject
 	Ctx      *GameContext
+	Paused   bool
 }
 
 func (g *Starter) handleCollision() {
@@ -27,7 +29,7 @@ func (g *Starter) handleCollision() {
 			if !ok {
 				continue
 			}
-			CheckCollision(a, b)
+			CheckCollision(a, b, g.Ctx)
 		}
 	}
 }
@@ -42,6 +44,13 @@ func (g *Starter) GetEntity(s string) GameObject {
 }
 
 func (g *Starter) Update() error {
+	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) {
+		g.Paused = !g.Paused
+	}
+
+	if g.Paused {
+		return nil
+	}
 	for _, e := range g.Entities {
 		e.Update(g.Ctx)
 	}

@@ -11,7 +11,7 @@ type Ball struct {
 	MaxSpeed float64
 }
 
-func NewBall(gc *game.GameContext, maxSpeed int) *Ball {
+func NewBall(gc *game.GameContext, maxSpeed float64) *Ball {
 
 	ball := &Ball{
 		ObjectBase: ObjectBase{
@@ -23,7 +23,7 @@ func NewBall(gc *game.GameContext, maxSpeed int) *Ball {
 			},
 			CurrentFrame: utils.LoadImage("ball/0.png"),
 		},
-		MaxSpeed: float64(maxSpeed),
+		MaxSpeed: maxSpeed,
 	}
 	return ball
 }
@@ -40,9 +40,11 @@ func (b *Ball) Update(gc *game.GameContext) {
 	b.Position.Y -= b.Position.VY
 
 	if b.Position.Y > sh-float64(bh) {
+		gc.EventBus.Publish(game.BallSplashAniamtionBottom)
 		b.Position.Y = sh - float64(bh)
 		b.Position.VY = -b.Position.VY
 	} else if b.Position.Y < 0 {
+		gc.EventBus.Publish(game.BallSplashAnimationTop)
 		b.Position.Y = 0
 		b.Position.VY = -b.Position.VY
 	}
@@ -73,7 +75,7 @@ func (b *Ball) Draw(screen *ebiten.Image) {
 	screen.DrawImage(b.CurrentFrame, opts)
 }
 
-func (b *Ball) OnCollision(a game.Collidable) {
+func (b *Ball) OnCollision(a game.Collidable, gc *game.GameContext) {
 	// ------- Increasing the speed after each hit by the paddle
 	if b.Position.VX > 0 {
 		b.Position.VX += 0.3

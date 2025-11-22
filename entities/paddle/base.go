@@ -9,7 +9,7 @@ import (
 
 type Behavior interface {
 	Update(p *PaddleBase, gc *game.GameContext)
-	OnCollision(p *PaddleBase, a game.Collidable)
+	OnCollision(p *PaddleBase, a game.Collidable, gc *game.GameContext)
 	GetType() string
 }
 
@@ -38,8 +38,8 @@ func (p *PaddleBase) Draw(screen *ebiten.Image) {
 	screen.DrawImage(p.CurrentFrame, opts)
 }
 
-func (p *PaddleBase) OnCollision(collision game.Collidable) {
-	p.Behavior.OnCollision(p, collision)
+func (p *PaddleBase) OnCollision(collision game.Collidable, gc *game.GameContext) {
+	p.Behavior.OnCollision(p, collision, gc)
 }
 
 func (p *PaddleBase) GetType() string {

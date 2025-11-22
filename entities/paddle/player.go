@@ -10,7 +10,6 @@ type PlayerBehavior struct{}
 
 func (PlayerBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 	// left side of the screen.
-	// w, h := p.CurrentFrame.Size()
 	h := p.CurrentFrame.Bounds().Size().Y
 	_, my := ebiten.CursorPosition()
 
@@ -27,7 +26,13 @@ func (PlayerBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 
 }
 
-func (PlayerBehavior) OnCollision(p *PaddleBase, a game.Collidable) {
+//   │ ├╴  cannot use paddle.PlayerBehavior{} (value of struct type paddle.PlayerBehavior)
+//   as paddle.Behavior value in argument to paddle.NewPaddle: paddle.PlayerBehavior does not implement paddle.Behavior (wrong type for method OnCollision)
+// │ │    		have OnCollision(*paddle.PaddleBase, game.Collidable, *game.GameContext)
+
+func (PlayerBehavior) OnCollision(p *PaddleBase, a game.Collidable, gc *game.GameContext) {
+	gc.EventBus.Publish(game.BallSplashAnimationLeft)
+
 	ball, ok := a.(*entities.Ball)
 	if !ok {
 		return
