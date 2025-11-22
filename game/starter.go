@@ -11,9 +11,9 @@ type WindowSize struct {
 }
 
 type Starter struct {
-	WindowSize WindowSize
-	Scale      int
-	Entities   []GameObject
+	Scale    int
+	Entities []GameObject
+	Ctx      *GameContext
 }
 
 func (g *Starter) handleCollision() {
@@ -42,14 +42,8 @@ func (g *Starter) GetEntity(s string) GameObject {
 }
 
 func (g *Starter) Update() error {
-	ctx := GameContext{
-		Width:   g.WindowSize.Width,
-		Height:  g.WindowSize.Height,
-		Starter: g,
-	}
-
 	for _, e := range g.Entities {
-		e.Update(&ctx)
+		e.Update(g.Ctx)
 	}
 
 	g.handleCollision()
@@ -65,9 +59,9 @@ func (g *Starter) Draw(screen *ebiten.Image) {
 }
 
 func (g *Starter) Layout(_, _ int) (int, int) {
-	return g.WindowSize.Width, g.WindowSize.Height
+	return g.Ctx.WindowSize.Width, g.Ctx.WindowSize.Height
 }
 
 func (g *Starter) GetWindowSize() (int, int) {
-	return g.WindowSize.Width * g.Scale, g.WindowSize.Height * g.Scale
+	return g.Ctx.WindowSize.Width * g.Scale, g.Ctx.WindowSize.Height * g.Scale
 }

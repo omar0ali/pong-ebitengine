@@ -18,13 +18,23 @@ type ScoreUI struct {
 	screenWidth int
 }
 
-func NewScoreUI(font font.Face) *ScoreUI {
-	return &ScoreUI{
+func NewScoreUI(font font.Face, gc *game.GameContext) *ScoreUI {
+	ui := &ScoreUI{
 		Player: 0,
 		CPU:    0,
 		Font:   font,
 		Color:  color.White,
 	}
+
+	gc.EventBus.Subscribe(game.ScoreCPU, func() {
+		ui.CPU++
+	})
+
+	gc.EventBus.Subscribe(game.ScorePlayer, func() {
+		ui.Player++
+	})
+
+	return ui
 }
 
 func (s *ScoreUI) Draw(screen *ebiten.Image) {
@@ -41,8 +51,9 @@ func (s *ScoreUI) Draw(screen *ebiten.Image) {
 	// Draw the text
 	text.Draw(screen, txtScore, s.Font, x, 20, s.Color)
 }
+
 func (s *ScoreUI) Update(gc *game.GameContext) {
-	s.screenWidth = gc.Width
+	s.screenWidth = gc.WindowSize.Width
 }
 
 func (s *ScoreUI) GetType() string {

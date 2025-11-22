@@ -3,9 +3,9 @@ package game
 import "github.com/hajimehoshi/ebiten/v2"
 
 type GameContext struct {
-	Width   int
-	Height  int
-	Starter *Starter
+	WindowSize *WindowSize
+	EventBus   *EventBus
+	Starter    *Starter
 }
 
 type GameObject interface {

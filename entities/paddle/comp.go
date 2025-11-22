@@ -23,7 +23,7 @@ func (c CPUBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 	ballCenter := ball.Position.Y + float64(bh)/2
 
 	// set paddle position
-	p.Position.X = float64(gc.Width) - float64(p.CurrentFrame.Bounds().Size().X)
+	p.Position.X = float64(gc.WindowSize.Width) - float64(p.CurrentFrame.Bounds().Size().X)
 
 	// How far is the ball center from paddle center
 	dh := ballCenter - paddleCenter
@@ -32,8 +32,8 @@ func (c CPUBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 	if p.Position.Y < 5 {
 		p.Position.Y = 5
 	}
-	if p.Position.Y > float64(gc.Height-ph)-5 {
-		p.Position.Y = float64(gc.Height-ph) - 5
+	if p.Position.Y > float64(gc.WindowSize.Height-ph)-5 {
+		p.Position.Y = float64(gc.WindowSize.Height-ph) - 5
 	}
 
 	if dh > float64(c.Speed) {

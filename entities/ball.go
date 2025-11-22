@@ -11,12 +11,13 @@ type Ball struct {
 	MaxSpeed float64
 }
 
-func NewBall(windowSize game.WindowSize, maxSpeed int) *Ball {
-	return &Ball{
+func NewBall(gc *game.GameContext, maxSpeed int) *Ball {
+
+	ball := &Ball{
 		ObjectBase: ObjectBase{
 			Position: Point{
-				X:  float64(windowSize.Width) / 2,
-				Y:  float64(windowSize.Height) / 2,
+				X:  float64(gc.WindowSize.Width / 2),
+				Y:  float64(gc.WindowSize.Height / 2),
 				VX: float64(maxSpeed),
 				VY: 0,
 			},
@@ -24,11 +25,12 @@ func NewBall(windowSize game.WindowSize, maxSpeed int) *Ball {
 		},
 		MaxSpeed: float64(maxSpeed),
 	}
+	return ball
 }
 
 func (b *Ball) Update(gc *game.GameContext) {
 	// get size of the screen
-	sw, sh := float64(gc.Width), float64(gc.Height)
+	sw, sh := float64(gc.WindowSize.Width), float64(gc.WindowSize.Height)
 
 	// get size of the ball
 	bw, bh := b.GetSize()
@@ -56,15 +58,11 @@ func (b *Ball) Update(gc *game.GameContext) {
 
 	// reset the ball in the middle
 	if b.Position.X > sw-float64(bw) {
-		if scoreUI, ok := gc.Starter.GetEntity("score").(*ScoreUI); ok {
-			scoreUI.CPU++
-		}
+		gc.EventBus.Publish(game.ScoreCPU)
 		reset()
 	}
 	if b.Position.X < -float64(bw) {
-		if scoreUI, ok := gc.Starter.GetEntity("score").(*ScoreUI); ok {
-			scoreUI.Player++
-		}
+		gc.EventBus.Publish(game.ScorePlayer)
 		reset()
 	}
 }

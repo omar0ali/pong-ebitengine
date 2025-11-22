@@ -12,22 +12,28 @@ import (
 )
 
 func main() {
-	windowSize := game.WindowSize{
-		Width:  875,
-		Height: 480,
+	ctx := &game.GameContext{
+		WindowSize: &game.WindowSize{
+			Width:  875,
+			Height: 480,
+		},
+		EventBus: game.NewEventBus(),
 	}
 
 	game := &game.Starter{
-		WindowSize: windowSize,
-		Scale:      2,
+		Scale: 2,
 		Entities: []game.GameObject{
 			effects.NewEffectManager(), // animation
-			entities.NewBall(windowSize, 5),
+			entities.NewBall(ctx, 5),
 			paddle.NewPaddle("0.png", paddle.PlayerBehavior{}),
 			paddle.NewPaddle("1.png", paddle.CPUBehavior{Speed: 3.8}),
-			entities.NewScoreUI(utils.LoadFont("fonts/pixel_font_2.ttf", 18)),
+			entities.NewScoreUI(utils.LoadFont("fonts/pixel_font_2.ttf", 18), ctx),
 		},
+		Ctx: ctx,
 	}
+
+	ctx.Starter = game
+
 	ebiten.SetWindowSize(game.GetWindowSize())
 	ebiten.SetWindowTitle("Pong Game")
 	if err := ebiten.RunGame(game); err != nil {

@@ -19,8 +19,8 @@ func (PlayerBehavior) Update(p *PaddleBase, gc *game.GameContext) {
 	if y < 0 {
 		y = 0
 	}
-	if y > float64(gc.Height-h) {
-		y = float64(gc.Height - h)
+	if y > float64(gc.WindowSize.Height-h) {
+		y = float64(gc.WindowSize.Height - h)
 	}
 
 	p.SetPosition(0, y)
